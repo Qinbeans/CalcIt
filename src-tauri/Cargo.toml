@@ -1,7 +1,7 @@
 [package]
 name = "calcit"
 version = "0.1.0"
-description = "A scientific calculator built with Tauri."
+description = "A *scientific* calculator built with Tauri."
 authors = ["Ryan Fong"]
 license = ""
 repository = ""
