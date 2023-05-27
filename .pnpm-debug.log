@@ -1,0 +1,22 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 error pnpm": {
+    "code": "ERR_PNPM_UNSUPPORTED_ENGINE",
+    "packageId": "C:\\Users\\Rybea\\Documents\\projects\\calcit2",
+    "wanted": {
+      "node": "18.x"
+    },
+    "current": {
+      "node": "v14.17.0",
+      "pnpm": "7.1.1"
+    },
+    "err": {
+      "name": "pnpm",
+      "message": "Unsupported engine for C:\\Users\\Rybea\\Documents\\projects\\calcit2: wanted: {\"node\":\"18.x\"} (current: {\"node\":\"v14.17.0\",\"pnpm\":\"7.1.1\"})",
+      "code": "ERR_PNPM_UNSUPPORTED_ENGINE",
+      "stack": "pnpm: Unsupported engine for C:\\Users\\Rybea\\Documents\\projects\\calcit2: wanted: {\"node\":\"18.x\"} (current: {\"node\":\"v14.17.0\",\"pnpm\":\"7.1.1\"})\n    at checkEngine (C:\\snapshot\\dist\\pnpm.cjs)\n    at checkPackage (C:\\snapshot\\dist\\pnpm.cjs)\n    at packageIsInstallable (C:\\snapshot\\dist\\pnpm.cjs)\n    at tryReadProjectManifest (C:\\snapshot\\dist\\pnpm.cjs)\n    at async handler (C:\\snapshot\\dist\\pnpm.cjs)\n    at async C:\\snapshot\\dist\\pnpm.cjs\n    at async run (C:\\snapshot\\dist\\pnpm.cjs)\n    at async runPnpm (C:\\snapshot\\dist\\pnpm.cjs)\n    at async C:\\snapshot\\dist\\pnpm.cjs"
+    }
+  }
+}
