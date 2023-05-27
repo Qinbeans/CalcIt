@@ -3,7 +3,8 @@
     "beforeBuildCommand": "pnpm run build",
     "beforeDevCommand": "pnpm run dev",
     "devPath": "http://localhost:5173",
-    "distDir": "../build"
+    "distDir": "../build",
+    "withGlobalTauri": true
   },
   "package": {
     "productName": "calcit2",
@@ -25,7 +26,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "com.calcit.dev",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -49,10 +50,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
+        "height": 800,
         "resizable": true,
         "title": "CalcIt",
-        "width": 800
+        "width": 600
       }
     ]
   }
