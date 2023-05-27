@@ -81,3 +81,16 @@ pub enum Token {
     #[token(")")]
     RightParenthesis,
 }
+
+impl Token {
+    pub fn is_number(&self) -> bool {
+        match self {
+            Token::Integer(_) => true,
+            Token::Float(_) => true,
+            Token::Binary(_) => true,
+            Token::Hexadecimal(_) => true,
+            Token::Octal(_) => true,
+            _ => false,
+        }
+    }
+}

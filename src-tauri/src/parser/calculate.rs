@@ -2,39 +2,113 @@ use crate::logger::logger::{self, debug, error};
 use super::{tokens::{Token}, expressions::{EnumExpression, ConstExpression, UnaryExpression, BinaryExpression, Expression}, constants::{Target, Constant}};
 use logos::{Logos, Lexer};
 
-#[allow(unused)]
-const PRECEDENCE: &[(Token, u8)] = &[
-    (Token::Exponent, 5),
-    (Token::Root, 5),
-    (Token::Multiply, 4),
-    (Token::Divide, 4),
-    (Token::Modulo, 4),
-    (Token::Plus, 3),
-    (Token::Minus, 3),
-    (Token::LeftShift, 2),
-    (Token::RightShift, 2),
-    (Token::And, 1),
-    (Token::Or, 1),
-    (Token::Xor, 1),
-];
-
+/**
+ A parser that takes a string and returns a constant.
+ */
 pub struct Parser<'a> {
     lexer: Lexer<'a, Token>,
-    // size: usize,
-    // current: usize,
+    current: usize,
+    size: usize,
 }
 
-
 impl <'a> Parser <'a> {
-    #[allow(unused)]
     pub fn new(string: &'a str) -> Self {
-        let lexer = Token::lexer(string);
+        debug!("Original: {}", string);
+        let precedence = Self::gen_precedence(string);
+        let lexer = Token::lexer(precedence);
         let size = lexer.clone().spanned().count();
         Self {
             lexer,
-            // size,
-            // current: 0,
+            current: 0,
+            size,
         }
+    }
+
+    /**
+     Generates a string with parenthesis to enforce operator precedence.
+     
+     Inspired by: https://en.wikipedia.org/wiki/Operator-precedence_parser#Precedence_climbing_method
+     */
+    pub fn gen_precedence(string: &str) -> &'static str {
+        let mut lexer = Token::lexer(string);
+        let mut precedence = "((((((((".to_string();
+        let mut next = lexer.next();
+        let mut prev: Option<Token> = None;
+        while let Some(r_token) = next.clone() {
+            if let Ok(token) = r_token {
+                match token {
+                    Token::Binary(b) => {
+                        precedence.push_str(&format!("{}", b));
+                    },
+                    Token::Integer(i) => {
+                        precedence.push_str(&format!("{}", i));
+                    },
+                    Token::Octal(o) => {
+                        precedence.push_str(&format!("{}", o));
+                    },
+                    Token::Hexadecimal(h) => {
+                        precedence.push_str(&format!("{}", h));
+                    },
+                    Token::Float(f) => {
+                        precedence.push_str(&format!("{}", f));
+                    },
+                    Token::Minus => {
+                        if prev.is_none() || !prev.as_ref().unwrap().is_number() {
+                            precedence.push_str("-");
+                        } else {
+                            precedence.push_str("))))-((((");
+                        }
+                    },
+                    Token::Not => {
+                        precedence.push_str("!");
+                    },
+                    Token::LeftParenthesis => {
+                        precedence.push_str("((((((((");
+                    },
+                    Token::RightParenthesis => {
+                        precedence.push_str("))))))))");
+                    },
+                    Token::Exponent => {
+                        precedence.push_str(")**(");
+                    },
+                    Token::Root => {
+                        precedence.push_str(")//(");
+                    },
+                    Token::Multiply => {
+                        precedence.push_str("))*((");
+                    },
+                    Token::Divide => {
+                        precedence.push_str("))/((");
+                    },
+                    Token::Modulo => {
+                        precedence.push_str(")))%(((");
+                    },
+                    Token::Plus => {
+                        precedence.push_str("))))+((((");
+                    },
+                    Token::LeftShift => {
+                        precedence.push_str(")))))<<(((((");
+                    },
+                    Token::RightShift => {
+                        precedence.push_str(")))))>>(((((");
+                    },
+                    Token::And => {
+                        precedence.push_str("))))))&((((((");
+                    },
+                    Token::Or => {
+                        precedence.push_str("))))))|((((((");
+                    },
+                    Token::Xor => {
+                        precedence.push_str(")))))))^(((((((");
+                    },
+                }
+                prev = Some(token);
+                next = lexer.next();
+            }
+        }
+        precedence.push_str("))))))))");
+        debug!("Precedence: {}", precedence);
+        Box::leak(precedence.into_boxed_str())
     }
 
     /**
@@ -42,7 +116,6 @@ impl <'a> Parser <'a> {
      * Parses the expression into an expression tree
      * Evaluates the expression tree
      */
-    #[allow(unused)]
     pub fn execute(&mut self, t: Target) -> Result<Constant, String> {
         //find the first token
         //if the first token is a number or a unary operator, then insert it into the expression tree
@@ -56,6 +129,9 @@ impl <'a> Parser <'a> {
         debug!("Evaluated expression: {:?}", serde_json::to_string(&eval).unwrap());
         Ok(eval)
     }
+    /**
+     Creates constant expressions from the tokens
+     */
     pub fn next_value(&mut self) -> Option<EnumExpression> {
         #[allow(unused_assignments)]
         let mut expression: Option<EnumExpression> = None;
@@ -70,6 +146,7 @@ impl <'a> Parser <'a> {
             error!("{:?}", err);
             return None;
         }
+        self.current += 1;
         let token = token.unwrap();
         match token {
             Token::Binary(_) | Token::Integer(_) | Token::Octal(_) | Token::Hexadecimal(_) | Token::Float(_) => {
@@ -97,6 +174,10 @@ impl <'a> Parser <'a> {
                     error!("Could not get the next expression");
                     return None;
                 }
+                if self.current >= self.size && self.lexer.slice() != ")" {
+                    error!("Could not find right parenthesis");
+                    return None;
+                }
                 expression = Some(next_expression.unwrap());
             },
             _ => {
@@ -106,6 +187,9 @@ impl <'a> Parser <'a> {
         }
         expression
     }
+    /**
+     Recursively finds the next expression
+     */
     pub fn next_expression(&mut self) -> Option<EnumExpression> {
         #[allow(unused_assignments)]
         let mut expression: Option<EnumExpression> = None;
@@ -123,6 +207,7 @@ impl <'a> Parser <'a> {
             return left;
         }
         let next = next.unwrap();
+        self.current += 1;
         if next == Token::RightParenthesis {
             return left;
         }

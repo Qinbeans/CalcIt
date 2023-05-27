@@ -33,7 +33,7 @@ mod tests{
     use crate::parser::calculate::Parser;
     let mut parser = Parser::new("(-1 + 0b1) - 3.0");
     let result = parser.execute(Target::Hexadecimal);
-    let expected = Constant::Hexadecimal((0xc008000000000000 as u64) as i64);
+    let expected = Constant::Hexadecimal((0xfffffffffffffffd as u64) as i64);
     assert_eq!(result, Ok(expected));
   }
   #[test]
@@ -43,6 +43,13 @@ mod tests{
     let result = parser.execute(Target::Octal);
     let expected = Constant::Octal(0o60004000000000000000);
     assert_eq!(result, Ok(expected));
+  }
+  #[test]
+  fn test_paren_failure() {
+    use crate::parser::calculate::Parser;
+    let mut parser = Parser::new("(-1 + 0b1 - 3.0");
+    let result = parser.execute(Target::Octal);
+    assert_eq!(result, Err("Could not parse the expression".to_string()));
   }
   #[test]
   fn test_float_2_octal_2_hex() {
@@ -58,6 +65,14 @@ mod tests{
     parser = Parser::new("0x3ff0000000000000");
     result = parser.execute(Target::Octal);
     expected = Constant::Octal(0o377600000000000000000);
+    assert_eq!(result, Ok(expected));
+  }
+  #[test]
+  fn test_precedence() {
+    use crate::parser::calculate::Parser;
+    let mut parser = Parser::new("3 * 1 + 2 * 3");
+    let result = parser.execute(Target::Integer);
+    let expected = Constant::Integer(9);
     assert_eq!(result, Ok(expected));
   }
 }

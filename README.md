@@ -8,22 +8,58 @@ Focused on being an easy to use calculator for programmers and engineers alike.
 
 <img src="./imgs/test.png" alt="CalcIt" width="400"/>
 
-## Testing
-
-<img src="./imgs/cargo-tests.png" alt="Tests" width="400"/>
-
 ## Features
 
 - [x] Basic arithmetic operations
-- [ ] Order of operations
+- [x] Order of operations
   - [x] Parentheses
-  - [ ] And, Or, Xor
-  - [ ] Bit Shifts
-  - [ ] Multiplication, Division, Modulo
-  - [ ] Addition, Subtraction
+  - [x] And, Or, Xor
+  - [x] Bit Shifts
+  - [x] Multiplication, Division, Modulo
+  - [x] Addition, Subtraction
 - [x] Bitwise operation on Floats, Integers, Hexadecimals, Octals and Binaries
 - [x] History of calculations
 - [ ] Save history to file
+
+## Precedence
+
+So this bugged me for a bit and it took about 3 hours to research a feasible solution.
+
+My solution was to create a new lexer that would parse a parenthesis enforced version of the input.  I knew my parethesis parser was working so I could use that to my advantage.
+
+Based on: [Operator-precedence parser](https://en.wikipedia.org/wiki/Operator-precedence_parser#Precedence_climbing_method)
+
+
+```
+1.5 + 1 * 2.0
+```
+
+turns into:
+
+```
+((((((((1.5))))+((((1))*((2))))))))
+```
+
+The amount of padding is a bit excessive but it's a predictive method for how many levels of precedence there are.
+
+My calculator now works with the following precedence:
+
+```
+1 - XOR
+2 - OR and AND
+3 - Bit Shifts(left and right)
+4 - Plus and Minus
+5 - Modulo
+6 - Multiplication and Division
+7 - Exponent and Root
+```
+
+The unary operators work at the same level as the numbers themselves.
+
+
+## Testing
+
+<img src="./imgs/cargo-tests.png" alt="Tests" width="400"/>
 
 # *Chat.GPT Haiku*
 
