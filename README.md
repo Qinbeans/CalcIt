@@ -6,6 +6,12 @@ A **bit** more advanced calculator written in Rust.
 
 Focused on being an easy to use calculator for programmers and engineers alike.
 
+<img src="./imgs/test.png" alt="CalcIt" width="400"/>
+
+## Testing
+
+<img src="./imgs/cargo-tests.png" alt="Tests" width="400"/>
+
 ## Features
 
 - [x] Basic arithmetic operations
