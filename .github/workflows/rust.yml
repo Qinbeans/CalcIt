@@ -11,11 +11,13 @@ env:
 
 jobs:
   build:
-
+    # Add libgtk-3-dev to install gtk3
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
+    - name: Install dependencies
+      run: sudo apt-get install libgtk-3-dev
     - name: Run tests
       working-directory: ./src-tauri
       run: cargo test --verbose

@@ -18,3 +18,9 @@ Focused on being an easy to use calculator for programmers and engineers alike.
 - [x] Bitwise operation on Floats, Integers, Hexadecimals, Octals and Binaries
 - [x] History of calculations
 - [ ] Save history to file
+
+# *Chat.GPT Haiku*
+
+    Qinbeans in the sun,
+    CalcIt shines for all to see,
+    Sharing knowledge free.
