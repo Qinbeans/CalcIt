@@ -3,5 +3,5 @@
 
 fn main() {
   #[cfg(desktop)]
-  app_lib::run();
+  calcit::run();
 }

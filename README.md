@@ -56,6 +56,17 @@ My calculator now works with the following precedence:
 
 The unary operators work at the same level as the numbers themselves.
 
+## Building
+
+All builds should be built with the latest version of Rust.  The tauri-cli version is 2.0.0-beta.9.
+
+### Android
+
+Make sure Java version 17 is installed.  You could go higher, but as of right now, 20 is not supported.
+
+### IOS
+
+Make sure XCode is installed.
 
 ## Testing
 

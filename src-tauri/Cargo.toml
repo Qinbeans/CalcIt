@@ -1,6 +1,6 @@
 [package]
 name = "calcit"
-version = "0.1.0"
+version = "0.2.5"
 description = "A *scientific* calculator built with Tauri."
 authors = ["Ryan Fong"]
 license = ""
@@ -11,7 +11,7 @@ rust-version = "1.65"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
-name = "app_lib"
+name = "calcit"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

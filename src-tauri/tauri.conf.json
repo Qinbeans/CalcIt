@@ -2,13 +2,13 @@
   "build": {
     "beforeBuildCommand": "pnpm run build",
     "beforeDevCommand": "pnpm run dev",
-    "devPath": "http://localhost:5173",
+    "devPath": "http://localhost:5174",
     "distDir": "../build",
     "withGlobalTauri": true
   },
   "package": {
     "productName": "calcit2",
-    "version": "0.1.0"
+    "version": "0.2.5"
   },
   "tauri": {
     "bundle": {

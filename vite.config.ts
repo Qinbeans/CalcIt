@@ -14,7 +14,7 @@ export default defineConfig(async () => {
     },
     server: {
       host: '0.0.0.0', // listen on all addresses
-      port: 5173,
+      port: 5174,
       strictPort: true,
       hmr: {
         protocol: 'ws',

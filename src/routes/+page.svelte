@@ -7,6 +7,7 @@
     let innerHeight = 0
     let results: Map<string, Constant> | undefined
     let last_result: Constant | undefined
+    
     const read_exec = (e: Event) => {
         if (e.target != null) {
             let value = (e.target as Element).innerHTML
@@ -112,22 +113,22 @@
     }
 </script>
 <svelte:window bind:innerWidth bind:innerHeight />
-<div class="flex flex-col gap-1 w-[3vw] fixed left-1 top-1 text-[1vw]">
+<div class="flex flex-col gap-1 sm:w-[3vw] w-[6vw] fixed left-1 top-1 text-[1vw]">
     <button class="rounded bg-black/75 hover:bg-black/25 p-1" on:click={save}>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-[2vw] h-[2vw]">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="sm:w-[2vw] sm:h-[2vw] w-[4vw] h-[4vw]">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
         </svg>
         Save
     </button>
     <button class="rounded bg-black/75 hover:bg-black/25 p-1" on:click={load}>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-[2vw] h-[2vw]">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="sm:w-[2vw] sm:h-[2vw] w-[4vw] h-[4vw]">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
           </svg>
           
         Load
     </button>
     <button class="rounded bg-black/75 hover:bg-black/25 p-1 text-red-700" on:click={clear}>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" class="w-[2vw] h-[2vw]">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" class="sm:w-[2vw] sm:h-[2vw] w-[4vw] h-[4vw]">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         Clear
@@ -136,15 +137,14 @@
 <div class="lg:text-[1.5vw] sm:text-[3vw] text-[5vw]">
     <ul class="flex flex-row fixed left-1/2 transform -translate-x-1/2 bottom-[20vh] overflow-y-auto">
         <li>
-            <ul class="rounded-l bg-stone-900/75 py-1 pl-[1.5vw] overflow-x-clip flex flex-col-reverse gap-1 w-[75vw] text-center h-[75vh]" id="history-eq">
+            <ul class="rounded-l bg-stone-900/75 py-1 pl-[1.5vw] overflow-x-clip flex flex-col-reverse gap-1 sm:w-[75vw] w-[70vw] text-center h-[75vh]" id="history-eq">
             </ul>
         </li>
         <li>
-            <ul class="rounded-r bg-stone-900/75 py-1 pr-[1.5vw] overflow-x-clip flex flex-col-reverse gap-1 w-[15vw] text-center h-[75vh]" id="history-res">
+            <ul class="rounded-r bg-stone-900/75 py-1 pr-[1.5vw] overflow-x-clip flex flex-col-reverse gap-1 sm:w-[15vw] w-[10vw] text-center h-[75vh]" id="history-res">
             </ul>
         </li>
     </ul>
-    <!-- center horizontally -->
     <form id="calc" class="flex gap-1 fixed bottom-[12.5vh] left-1/2 transform -translate-x-1/2">
         <input
             type="text"
